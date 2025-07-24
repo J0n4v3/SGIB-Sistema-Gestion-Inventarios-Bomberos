@@ -34,7 +34,7 @@ class MovimientosController < ApplicationController
     begin
       ActiveRecord::Base.transaction do
         @movimiento.save!
-        # 🚫 Ya no actualizamos el stock acá
+        #  Ya no actualizamos el stock acá
       end
 
       redirect_to movimientos_path, notice: "Movimiento creado correctamente."
