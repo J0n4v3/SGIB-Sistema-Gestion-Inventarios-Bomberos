@@ -27,7 +27,7 @@ Control de versiones: Git y GitHub
 
  Instalación del proyecto (Windows 10 con CMD)
 
-### ✅ Requisitos previos
+### Requisitos previos
 
 Asegurate de tener instalado:
 
@@ -39,7 +39,7 @@ Asegurate de tener instalado:
 
 ---
 
-### 🛠️ Pasos de instalación
+###  Pasos de instalación
 
 1. **Clonar el repositorio desde GitHub**:
 
@@ -48,39 +48,41 @@ Asegurate de tener instalado:
    cd Ing_Soft_Gestion_Inventario_Estacion_Bomberos
 Instalar las gemas necesarias:
 
-cmd
+```cmd
 Copiar
 Editar
 bundle install
+```
 Instalar paquetes JavaScript y preparar assets:
-
+```
 cmd
 Copiar
 Editar
 yarn install
-
+```
 Crear y migrar la base de datos:
-
+```
 cmd
 Copiar
 Editar
 rails db:create
 rails db:migrate
-
+```
 Levantar el servidor:
-
+```
 cmd
 Copiar
 Editar
 bin\rails server
+```
 Abrir la app:
 
 Entrá en tu navegador a:
-
+```
 http://localhost:3000
 
-
- Uso del sistema
+```
+### Uso del sistema
 
  Autenticación
 El sistema utiliza Devise para el inicio de sesión y registro de usuarios.
@@ -118,7 +120,7 @@ email:string
 
 password:string
 
- Interfaz
+### Interfaz
 Totalmente responsive gracias a Bootstrap 5.
 
 Navegación sencilla a través de una barra superior fija.
@@ -126,7 +128,7 @@ Navegación sencilla a través de una barra superior fija.
 Visualización clara del stock y los movimientos.
 
 
- Autoría y licencia
+### Autoría y licencia
 Este proyecto fue desarrollado por Jonathan Verruck  como parte del Trabajo Final de Grado en la carrera de Licenciatura de Sistemas.
 
 Universidad: Universidad Autonoma de Encarnacion
