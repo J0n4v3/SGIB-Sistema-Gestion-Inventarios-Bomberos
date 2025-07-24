@@ -1,0 +1,12 @@
+<%= form_with model: @movimiento do |form| %>
+  <%= form.label :producto_id %>
+  <%= form.collection_select :producto_id, Producto.all, :id, :nombre %>
+
+  <%= form.label :tipo %>
+  <%= form.select :tipo, [["Entrada", "entrada"], ["Salida", "salida"]] %>
+
+  <%= form.label :cantidad %>
+  <%= form.number_field :cantidad %>
+
+  <%= form.submit "Registrar movimiento" %>
+<% end %>
