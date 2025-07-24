@@ -1,0 +1,37 @@
+<%= form_with(model: movimiento, local: true) do |form| %>
+  <% if movimiento.errors.any? %>
+    <div style="color: red; border: 1px solid red; padding: 10px; margin-bottom: 20px;">
+      <h2><%= pluralize(movimiento.errors.count, "error") %> prohibited this movimiento from being saved:</h2>
+
+      <ul>
+        <% movimiento.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :producto_id, "Producto", style: "display: block;" %>
+    <%= form.collection_select :producto_id, Producto.all, :id, :nombre, prompt: "Seleccione un producto" %>
+  </div>
+
+  <div>
+    <%= form.label :tipo, "Tipo", style: "display: block;" %>
+    <%= form.select :tipo, [["Entrada", "entrada"], ["Salida", "salida"]], prompt: "Seleccione tipo" %>
+  </div>
+
+  <div>
+    <%= form.label :cantidad, "Cantidad", style: "display: block;" %>
+    <%= form.number_field :cantidad, min: 1 %>
+  </div>
+
+  <div>
+    <%= form.label :observacion, "Observación", style: "display: block;" %>
+    <%= form.text_area :observacion %>
+  </div>
+
+  <div>
+    <%= form.submit "Registrar movimiento" %>
+  </div>
+<% end %>

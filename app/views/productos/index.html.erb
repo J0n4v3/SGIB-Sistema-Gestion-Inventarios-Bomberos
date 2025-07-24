@@ -1,0 +1,48 @@
+<% content_for :title, "Productos" %>
+
+<div class="container mt-4">
+
+  <% if notice %>
+    <div class="alert alert-success">
+      <%= notice %>
+    </div>
+  <% end %>
+
+  <h1 class="mb-4 text-danger fw-bold">Listado de Productos</h1>
+
+  <table class="table table-bordered table-hover shadow-sm">
+  <thead style="background-color: #ffc107 !important; color: black !important; text-align: center;">
+
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Categoría</th>
+      <th>Cantidad</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @productos.each do |producto| %>
+      <tr>
+        <td class="text-center"><%= producto.id %></td>
+        <td><%= producto.nombre %></td>
+        <td><%= producto.categoria %></td>
+        <td class="text-center"><%= producto.cantidad %></td>
+        <td class="text-center">
+          <%= link_to 'Ver', producto_path(producto), class: "btn btn-sm btn-outline-danger me-1" %>
+          <%= link_to 'Editar', edit_producto_path(producto), class: "btn btn-sm btn-outline-secondary me-1" %>
+          <%= link_to 'Eliminar', producto_path(producto),
+              method: :delete,
+              data: { confirm: '¿Estás seguro?' },
+              class: "btn btn-sm btn-outline-dark" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+
+  <%= link_to "Nuevo Producto", new_producto_path, class: "btn btn-danger mt-3" %>
+</div>

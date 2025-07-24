@@ -1,0 +1,23 @@
+<% content_for :title, "Nuevo movimiento" %>
+
+<h1>Nuevo movimiento</h1>
+
+<% if @movimiento.errors.any? %>
+  <div id="error_explanation" style="color: red; border: 1px solid red; padding: 10px; margin-bottom: 20px;">
+    <h2><%= pluralize(@movimiento.errors.count, "error") %> prohibieron guardar este movimiento:</h2>
+
+    <ul>
+      <% @movimiento.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= render "form", movimiento: @movimiento %>
+
+<br>
+
+<div>
+  <%= link_to "Volver a movimientos", movimientos_path %>
+</div>

@@ -1,0 +1,58 @@
+<% content_for :title, "Movimientos" %>
+
+<!-- Forzamos el color para entradas con más especificidad -->
+<style>
+  tr.table-entrada td {
+    background-color:rgb(167, 238, 172) !important;
+    color: #0a0a0a !important;
+  }
+</style>
+
+<div class="container mt-4">
+
+  <% if notice %>
+    <div class="alert alert-success">
+      <%= notice %>
+    </div>
+  <% end %>
+
+  <h1 class="mb-4 text-danger fw-bold">Listado de Movimientos</h1>
+
+  <table class="table table-bordered table-hover shadow-sm">
+    <thead class="bg-warning text-dark text-center">
+      <tr>
+        <th>ID</th>
+        <th>Producto</th>
+        <th>Tipo</th>
+        <th>Cantidad</th>
+        <th>Observación</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+  <% @movimientos.each do |movimiento| %>
+    <% tipo = movimiento.tipo.to_s.strip.downcase %>
+    <tr class="<%= tipo == 'salida' ? 'table-danger' : tipo == 'entrada' ? 'table-entrada' : '' %>">
+      <td class="text-center"><%= movimiento.id %></td>
+      <td><%= movimiento.producto.nombre %></td>
+      <td class="text-center text-uppercase"><%= movimiento.tipo %></td>
+      <td class="text-center"><%= movimiento.cantidad %></td>
+      <td><%= movimiento.observacion %></td>
+      <td class="text-center"><%= movimiento.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+      <td class="text-center">
+        <%= link_to 'Ver', movimiento_path(movimiento), class: "btn btn-sm btn-outline-danger me-1" %>
+        <%= link_to 'Editar', edit_movimiento_path(movimiento), class: "btn btn-sm btn-outline-secondary me-1" %>
+        <%= link_to 'Eliminar', movimiento_path(movimiento),
+            method: :delete,
+            data: { confirm: '¿Estás seguro?' },
+            class: "btn btn-sm btn-outline-dark" %>
+      </td>
+    </tr>
+  <% end %>
+</tbody>
+
+  </table>
+
+  <%= link_to "Nuevo Movimiento", new_movimiento_path, class: "btn btn-danger mt-3" %>
+</div>
