@@ -1,0 +1,32 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="mb-0">Historial de Ajustes</h1>
+
+  <%= link_to "+ Nuevo Ajuste", new_ajuste_path, 
+        class: "btn btn-danger fw-bold shadow-sm" %>
+</div>
+
+<table class="table table-bordered table-striped text-center">
+  <thead class="table-warning">
+    <tr>
+      <th>Producto</th>
+      <th>Anterior</th>
+      <th>Nuevo</th>
+      <th>Motivo</th>
+      <th>Usuario</th>
+      <th>Fecha</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ajustes.each do |ajuste| %>
+      <tr>
+        <td><%= ajuste.producto.nombre %></td>
+        <td><%= ajuste.cantidad_anterior %></td>
+        <td><%= ajuste.cantidad_nueva %></td>
+        <td><%= ajuste.motivo %></td>
+        <td><%= ajuste.user.email %></td>
+        <td><%= ajuste.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
