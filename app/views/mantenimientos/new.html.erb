@@ -1,0 +1,45 @@
+<div class="card shadow p-4 mx-auto" style="max-width: 600px;">
+  <h3 class="mb-4 text-center">Registrar Mantenimiento</h3>
+
+  <%= form_with(model: @mantenimiento, local: true) do |f| %>
+
+    <div class="mb-3">
+      <%= f.label :producto_id, "Producto", class: "form-label fw-bold" %>
+      <%= f.select :producto_id, @productos.map { |p| [p.nombre, p.id] },
+          {}, class: "form-select" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :tipo, "Tipo de mantenimiento", class: "form-label fw-bold" %>
+      <%= f.select :tipo, [["Preventivo", "Preventivo"], ["Correctivo", "Correctivo"]],
+          {}, class: "form-select" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :descripcion, "Descripción", class: "form-label fw-bold" %>
+      <%= f.text_area :descripcion, class: "form-control", rows: 3 %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :fecha_mantenimiento, "Fecha", class: "form-label fw-bold" %>
+      <%= f.date_field :fecha_mantenimiento, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :proximo_mantenimiento, "Próximo mantenimiento", class: "form-label fw-bold" %>
+      <%= f.date_field :proximo_mantenimiento, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :estado_post_mantenimiento, "Estado del equipo", class: "form-label fw-bold" %>
+      <%= f.select :estado_post_mantenimiento, 
+            ["Operativo", "Dañado", "En reparación"], 
+            {}, class: "form-select" %>
+    </div>
+
+    <div class="text-center">
+      <%= f.submit "Guardar", class: "btn btn-danger fw-bold px-4" %>
+    </div>
+
+  <% end %>
+</div>

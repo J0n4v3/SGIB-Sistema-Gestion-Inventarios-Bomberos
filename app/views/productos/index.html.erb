@@ -8,41 +8,56 @@
     </div>
   <% end %>
 
+  <% # Notificación general de productos con bajo stock %>
+  <% bajos = @productos.select(&:bajo_stock?) %>
+  <% if bajos.any? %>
+    <div class="alert alert-warning fw-bold text-center">
+      ⚠️ Hay <%= bajos.count %> productos con bajo stock. Revisá el inventario.
+    </div>
+  <% end %>
+
   <h1 class="mb-4 text-danger fw-bold">Listado de Productos</h1>
 
   <table class="table table-bordered table-hover shadow-sm">
-  <thead style="background-color: #ffc107 !important; color: black !important; text-align: center;">
-
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Categoría</th>
-      <th>Cantidad</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @productos.each do |producto| %>
+    <thead style="background-color: #ffc107 !important; color: black !important; text-align: center;">
       <tr>
-        <td class="text-center"><%= producto.id %></td>
-        <td><%= producto.nombre %></td>
-        <td><%= producto.categoria %></td>
-        <td class="text-center"><%= producto.cantidad %></td>
-        <td class="text-center">
-          <%= link_to 'Ver', producto_path(producto), class: "btn btn-sm btn-outline-danger me-1" %>
-          <%= link_to 'Editar', edit_producto_path(producto), class: "btn btn-sm btn-outline-secondary me-1" %>
-          <%= link_to 'Eliminar', producto_path(producto),
-              method: :delete,
-              data: { confirm: '¿Estás seguro?' },
-              class: "btn btn-sm btn-outline-dark" %>
-        </td>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Cantidad</th>
+        <th>Stock Mínimo</th>
+        <th>Estado</th>
+        <th>Acciones</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-
-
+    </thead>
+    <tbody>
+      <% @productos.each do |producto| %>
+        <% row_class = producto.bajo_stock? ? 'table-warning' : '' %>
+        <tr class="<%= row_class %>">
+          <td class="text-center"><%= producto.id %></td>
+          <td><%= producto.nombre %></td>
+          <td><%= producto.categoria %></td>
+          <td class="text-center"><%= producto.cantidad %></td>
+          <td class="text-center"><%= producto.stock_minimo %></td>
+          <td class="text-center">
+            <% if producto.bajo_stock? %>
+              <span class="badge bg-danger">⚠️ Bajo stock</span>
+            <% else %>
+              <span class="badge bg-success">OK</span>
+            <% end %>
+          </td>
+          <td class="text-center">
+            <%= link_to 'Ver', producto_path(producto), class: "btn btn-sm btn-outline-danger me-1" %>
+            <%= link_to 'Editar', edit_producto_path(producto), class: "btn btn-sm btn-outline-secondary me-1" %>
+            <%= link_to 'Eliminar', producto_path(producto),
+                method: :delete,
+                data: { confirm: '¿Estás seguro?' },
+                class: "btn btn-sm btn-outline-dark" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
   <%= link_to "Nuevo Producto", new_producto_path, class: "btn btn-danger mt-3" %>
 </div>

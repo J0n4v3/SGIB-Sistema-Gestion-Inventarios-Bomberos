@@ -1,0 +1,51 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-danger fw-bold">Gestión de Usuarios 👥</h2>
+
+  <% if notice %>
+    <div class="alert alert-success"><%= notice %></div>
+  <% elsif alert %>
+    <div class="alert alert-danger"><%= alert %></div>
+  <% end %>
+
+  <table class="table table-hover table-bordered align-middle">
+    <thead class="table-danger">
+      <tr>
+        <th>Email</th>
+        <th>Rol Actual</th>
+        <th>Cambiar Rol</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @usuarios.each do |usuario| %>
+        <tr>
+          <td><%= usuario.email %></td>
+
+          <td>
+            <% case usuario.role %>
+            <% when "admin" %>
+              <span class="badge bg-danger">Admin</span>
+            <% when "encargado" %>
+              <span class="badge bg-warning text-dark">Encargado</span>
+            <% else %>
+              <span class="badge bg-secondary">Bombero</span>
+            <% end %>
+          </td>
+
+          <td>
+            <% if usuario == current_user %>
+              <span class="text-muted">No puedes modificarte a ti mismo</span>
+            <% else %>
+              <%= form_with(model: usuario, url: usuario_path(usuario), method: :patch, local: true) do |f| %>
+                <div class="d-flex">
+                  <%= f.select :role, User.roles.keys.map { |r| [r.humanize, r] },
+                               {}, class: "form-select me-2" %>
+                  <%= f.submit "Actualizar", class: "btn btn-sm btn-danger" %>
+                </div>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

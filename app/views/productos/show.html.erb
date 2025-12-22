@@ -1,10 +1,63 @@
-<p style="color: green"><%= notice %></p>
+<% if notice.present? %>
+  <div class="alert alert-success text-center fw-semibold"><%= notice %></div>
+<% end %>
 
-<%= render @producto %>
+<div class="mx-auto mt-4 p-3 border rounded shadow-sm bg-white" style="max-width: 600px;">
+  <h4 class="text-center mb-3 text-danger fw-bold"><%= @producto.nombre %></h4>
 
-<div>
-  <%= link_to "Edit this producto", edit_producto_path(@producto) %> |
-  <%= link_to "Back to productos", productos_path %>
+  <ul class="list-group mb-3">
+    <li class="list-group-item d-flex justify-content-between"><strong>Categoría:</strong> <%= @producto.categoria %></li>
+    <li class="list-group-item d-flex justify-content-between"><strong>Cantidad:</strong> <%= @producto.cantidad %> <%= @producto.unidad %></li>
+    <li class="list-group-item d-flex justify-content-between"><strong>Stock mínimo:</strong> <%= @producto.stock_minimo %></li>
+  </ul>
 
-  <%= button_to "Destroy this producto", @producto, method: :delete %>
+  <% if @producto.bajo_stock? %>
+    <div class="alert alert-danger text-center fw-bold">⚠ Bajo stock</div>
+  <% end %>
+
+  <div class="d-flex justify-content-between mt-3">
+
+  <% if current_user.role == "encargado" || current_user.role == "admin" %>
+    <%= link_to "Editar", edit_producto_path(@producto), class: "btn btn-danger btn-sm" %>
+  <% end %>
+
+  <%= link_to "Volver", productos_path, class: "btn btn-outline-danger btn-sm" %>
+
+  <% if current_user.role == "admin" %>
+  <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+    Eliminar
+  </button>
+<% end %>
+
 </div>
+</div>
+
+<!-- Modal de Confirmación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title fw-bold" id="confirmDeleteModalLabel">Confirmar eliminación</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        ⚠️ ¿Estás seguro que querés eliminar<strong> <%= @producto.nombre %></strong>?<br>
+        Esta acción es permanente y no se puede deshacer.
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+        <%= button_to "Eliminar definitivamente",
+              @producto,
+              method: :delete,
+              class: "btn btn-danger",
+              form: { data: { turbo_confirm: "¿Seguro?" } } %>
+      </div>
+
+    </div>
+  </div>
+</div>
+

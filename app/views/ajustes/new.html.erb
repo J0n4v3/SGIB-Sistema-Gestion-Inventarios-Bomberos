@@ -1,0 +1,23 @@
+<h2 class="mb-3">Ajuste de Inventario</h2>
+
+<%= form_with model: @ajuste, local: true do |f| %>
+
+  <div class="mb-3">
+    <%= f.label :producto_id, "Producto", class: "form-label" %>
+    <%= f.select :producto_id, @productos.map { |p| ["#{p.nombre} (Stock: #{p.cantidad})", p.id] },
+        {}, class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :cantidad_nueva, "Nueva cantidad", class: "form-label" %>
+    <%= f.number_field :cantidad_nueva, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :motivo, "Motivo del ajuste", class: "form-label" %>
+    <%= f.text_area :motivo, class: "form-control", rows: 3 %>
+  </div>
+
+  <%= f.submit "Aplicar Ajuste", class: "btn btn-danger fw-bold" %>
+
+<% end %>
