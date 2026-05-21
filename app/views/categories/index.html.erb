@@ -1,0 +1,85 @@
+<% content_for :title, "Categorías" %>
+
+<div class="max-w-7xl mx-auto space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-bold text-stone-900 tracking-tight pb-1">Listado de Categorías</h1>
+      <p class="mt-1 text-sm text-stone-500">Administra las clasificaciones de los productos.</p>
+    </div>
+    
+    <div>
+      <%= link_to new_category_path, class: "inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-red-700 hover:bg-red-800 text-white text-sm font-semibold rounded-xl shadow-sm shadow-red-700/20 transition-all focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        Nueva Categoría
+      <% end %>
+    </div>
+  </div>
+
+  <% if notice %>
+    <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 shadow-sm">
+      <div class="flex items-center gap-3">
+        <svg class="h-5 w-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <p class="text-sm font-semibold text-emerald-800"><%= notice %></p>
+      </div>
+    </div>
+  <% elsif alert %>
+    <div class="rounded-xl border border-amber-200 bg-amber-50 p-4 shadow-sm">
+      <div class="flex items-center gap-3">
+        <svg class="h-5 w-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        <p class="text-sm font-semibold text-amber-800"><%= alert %></p>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Tabla de Categorías -->
+  <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-stone-50 text-stone-500 text-xs uppercase tracking-wider">
+            <th class="px-6 py-4 font-medium border-b border-stone-200 w-16">ID</th>
+            <th class="px-6 py-4 font-medium border-b border-stone-200">Nombre</th>
+            <th class="px-6 py-4 font-medium border-b border-stone-200">Descripción</th>
+            <th class="px-6 py-4 font-medium border-b border-stone-200 text-center">Productos</th>
+            <th class="px-6 py-4 font-medium border-b border-stone-200 text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-stone-100">
+          <% @categories.each do |category| %>
+            <tr class="hover:bg-stone-50 transition-colors">
+              <td class="px-6 py-4 text-sm text-stone-500 font-mono"><%= category.id %></td>
+              <td class="px-6 py-4 text-sm font-semibold text-stone-900"><%= category.nombre %></td>
+              <td class="px-6 py-4 text-sm text-stone-600 truncate max-w-xs"><%= category.descripcion %></td>
+              <td class="px-6 py-4 text-center">
+                <span class="inline-flex items-center justify-center min-w-[2rem] px-2 py-0.5 rounded-md text-xs font-bold bg-stone-100 text-stone-700">
+                  <%= category.productos.count %>
+                </span>
+              </td>
+              <td class="px-6 py-4 text-right space-x-2">
+                <%= link_to 'Ver', category_path(category), class: "inline-flex items-center text-sm font-medium text-stone-600 hover:text-stone-900 hover:underline" %>
+                <span class="text-stone-300">|</span>
+                <%= link_to 'Editar', edit_category_path(category), class: "inline-flex items-center text-sm font-medium text-amber-600 hover:text-amber-800 hover:underline" %>
+                <span class="text-stone-300">|</span>
+                <%= link_to 'Eliminar', category_path(category), data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro que querés eliminar esta categoría?' }, class: "inline-flex items-center text-sm font-medium text-red-600 hover:text-red-800 hover:underline" %>
+              </td>
+            </tr>
+          <% end %>
+          <% if @categories.empty? %>
+            <tr>
+              <td colspan="5" class="px-6 py-12 text-center text-stone-500 text-sm">
+                <div class="flex flex-col items-center justify-center">
+                  <svg class="w-10 h-10 text-stone-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                  <p class="text-base font-medium text-stone-900">No hay categorías</p>
+                  <p class="mt-1">Crea una nueva categoría para organizar los productos.</p>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

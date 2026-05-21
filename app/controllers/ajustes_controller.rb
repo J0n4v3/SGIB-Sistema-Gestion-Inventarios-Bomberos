@@ -1,6 +1,6 @@
 class AjustesController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin_or_encargado
+  before_action :require_supervisor_or_admin
 
   def index
     @ajustes = Ajuste.includes(:producto, :user).order(created_at: :desc)
@@ -32,9 +32,5 @@ class AjustesController < ApplicationController
     params.require(:ajuste).permit(:producto_id, :cantidad_nueva, :motivo)
   end
 
-  def require_admin_or_encargado
-    unless current_user.admin? || current_user.encargado?
-      redirect_to root_path, alert: "No tienes permiso para realizar ajustes."
-    end
-  end
+
 end

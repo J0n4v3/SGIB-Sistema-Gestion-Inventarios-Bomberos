@@ -1,9 +1,11 @@
 class Producto < ApplicationRecord
+  belongs_to :category
+
   validates :nombre, presence: true
   validates :cantidad, numericality: { greater_than_or_equal_to: 0 }
   validates :stock_minimo, numericality: { greater_than_or_equal_to: 0 }
+  validates :category, presence: true
 
-  # Método para alertas
   def bajo_stock?
     cantidad < stock_minimo
   end

@@ -1,5 +1,6 @@
 class ProductosController < ApplicationController
   before_action :authenticate_user!
+  before_action :require_supervisor_or_admin, except: %i[index show]
   before_action :set_producto, only: %i[ show edit update destroy ]
 
   # GET /productos or /productos.json
@@ -66,8 +67,6 @@ class ProductosController < ApplicationController
 
     # Filtra y permite atributos especificados
     def producto_params
-  params.require(:producto).permit(:nombre, :categoria, :cantidad, :unidad, :stock_minimo)
+  params.require(:producto).permit(:nombre, :category_id, :cantidad, :unidad, :stock_minimo)
 end
-
-
 end

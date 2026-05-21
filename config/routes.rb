@@ -1,32 +1,30 @@
 Rails.application.routes.draw do
-  get "mantenimientos/index"
-  get "mantenimientos/new"
-  get "mantenimientos/create"
-  get "ajustes/index"
-  get "ajustes/new"
-  # Rutas para usuarios (solo index/update sin romper devise)
-  resources :usuarios, only: [:index, :update], controller: "usuarios"
+  get "dashboard/index"
+  get "dashboard", to: "dashboard#index", as: :dashboard
 
-  # Devise
-  devise_for :users, skip: [:registrations]
-
-  
-  # Recursos del sistema
+  resources :categories
   resources :movimientos
   resources :productos
-  resources :ajustes, only: [:index, :new, :create]
-  resources :mantenimientos
+  resources :ajustes, only: [ :index, :new, :create ]
+  resources :mantenimientos do
+    member do
+      patch :completar
+    end
+  end
+
+  # Rutas para usuarios
+  resources :usuarios, only: [ :index, :update ], controller: "usuarios"
+
+  # Devise
+  devise_for :users, skip: [ :registrations ]
 
   # Ruta para el estado de salud del sistema
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Rutas para PWA
-  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-  get "manifest"       => "rails/pwa#manifest",       as: :pwa_manifest
 
   # Root dinámico según login
   authenticated :user do
-    root to: 'productos#index', as: :authenticated_root
+    root to: "dashboard#index", as: :authenticated_root
   end
 
   unauthenticated do
