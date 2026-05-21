@@ -1,32 +1,173 @@
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h1 class="mb-0">Historial de Mantenimientos</h1>
+<% content_for :title, "Mantenimientos" %>
 
-  <%= link_to "+ Registrar Mantenimiento", new_mantenimiento_path,
-        class: "btn btn-danger fw-bold shadow-sm" %>
+<div class="max-w-7xl mx-auto space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-bold text-stone-900 tracking-tight pb-1">Historial de Mantenimientos</h1>
+      <p class="mt-1 text-sm text-stone-500">Gestión de tareas de mantenimiento preventivo y correctivo.</p>
+    </div>
+    
+    <div>
+      <%= link_to new_mantenimiento_path, class: "inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-xl shadow-sm shadow-amber-600/20 transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        Registrar Mantenimiento
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Tabla de Mantenimientos -->
+  <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-amber-50 text-amber-800 text-xs uppercase tracking-wider">
+            <th class="px-6 py-4 font-bold border-b border-stone-200">Producto</th>
+            <th class="px-6 py-4 font-bold border-b border-stone-200 text-center">Tipo</th>
+            <th class="px-6 py-4 font-bold border-b border-stone-200 text-center">Fecha</th>
+            <th class="px-6 py-4 font-bold border-b border-stone-200 text-center">Próximo</th>
+            <th class="px-6 py-4 font-bold border-b border-stone-200 text-center">Estado</th>
+            <th class="px-6 py-4 font-bold border-b border-stone-200">Usuario</th>
+            <th class="px-6 py-4 font-bold border-b border-stone-200 text-center">Completado</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-stone-100">
+          <% @mantenimientos.each do |m| %>
+            <tr class="hover:bg-stone-50 transition-colors cursor-pointer" onclick="if(!event.target.closest('.no-modal')) document.getElementById('detalleModal-<%= m.id %>').showModal()">
+              <td class="px-6 py-4 text-sm font-semibold text-stone-900"><%= m.producto.nombre %></td>
+              <td class="px-6 py-4 text-center">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium <%= m.tipo == 'Preventivo' ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-600/20' : 'bg-orange-50 text-orange-700 ring-1 ring-orange-600/20' %>">
+                  <%= m.tipo %>
+                </span>
+              </td>
+              <td class="px-6 py-4 text-center text-sm text-stone-600"><%= m.fecha_mantenimiento.strftime("%d/%m/%Y") %></td>
+              <td class="px-6 py-4 text-center text-sm font-medium text-stone-500"><%= m.proximo_mantenimiento&.strftime("%d/%m/%Y") || "—" %></td>
+              <td class="px-6 py-4 text-center">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-700">
+                  <%= m.estado_post_mantenimiento %>
+                </span>
+              </td>
+              <td class="px-6 py-4 text-sm text-stone-500"><%= m.user.email.split('@').first %></td>
+              <td class="px-6 py-4 text-center no-modal" onclick="event.stopPropagation();">
+                <%= form_with url: completar_mantenimiento_path(m), method: :patch, local: true, html: { class: "completar-form inline-block" } do |f| %>
+                  <div class="flex items-center justify-center">
+                    <%= f.check_box :completado, checked: m.completado, class: "completar-checkbox w-5 h-5 text-amber-600 bg-stone-100 border-stone-300 rounded focus:ring-amber-500 cursor-pointer" %>
+                  </div>
+                <% end %>
+              </td>
+            </tr>
+
+            <!-- Modal Nativo HTML5 para Detalle -->
+            <dialog id="detalleModal-<%= m.id %>" class="rounded-2xl shadow-2xl border border-stone-200 p-0 backdrop:bg-stone-900/60 w-full max-w-lg open:animate-in open:fade-in open:zoom-in-95">
+              <div class="bg-white">
+                <div class="px-6 py-4 border-b border-stone-100 flex items-center justify-between bg-amber-600">
+                  <h5 class="text-lg font-bold text-white flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    Detalle del Mantenimiento
+                  </h5>
+                  <button type="button" class="text-amber-100 hover:bg-amber-700 hover:text-white p-1.5 rounded-lg transition-colors" onclick="document.getElementById('detalleModal-<%= m.id %>').close()">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                  </button>
+                </div>
+                <div class="px-6 py-5 space-y-4">
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <p class="text-xs font-semibold text-stone-500 uppercase tracking-wide">Producto</p>
+                      <p class="mt-1 text-sm font-medium text-stone-900"><%= m.producto.nombre %></p>
+                    </div>
+                    <div>
+                      <p class="text-xs font-semibold text-stone-500 uppercase tracking-wide">Tipo</p>
+                      <p class="mt-1 text-sm font-medium text-stone-900"><%= m.tipo %></p>
+                    </div>
+                    <div>
+                      <p class="text-xs font-semibold text-stone-500 uppercase tracking-wide">Fecha</p>
+                      <p class="mt-1 text-sm font-medium text-stone-900"><%= m.fecha_mantenimiento.strftime("%d/%m/%Y") %></p>
+                    </div>
+                    <div>
+                      <p class="text-xs font-semibold text-stone-500 uppercase tracking-wide">Responsable</p>
+                      <p class="mt-1 text-sm font-medium text-stone-900"><%= m.user.email %></p>
+                    </div>
+                  </div>
+
+                  <div class="pt-4 border-t border-stone-100">
+                    <p class="text-xs font-semibold text-stone-500 uppercase tracking-wide">Descripción</p>
+                    <div class="mt-2 text-sm text-stone-700 bg-stone-50 p-3 rounded-xl border border-stone-100">
+                      <%= m.descripcion.present? ? m.descripcion : "Sin descripción detallada." %>
+                    </div>
+                  </div>
+                </div>
+                <div class="px-6 py-4 bg-stone-50 border-t border-stone-100 flex justify-end">
+                  <button class="px-4 py-2 bg-white border border-stone-200 text-stone-700 text-sm font-medium rounded-xl hover:bg-stone-50 transition-colors" onclick="document.getElementById('detalleModal-<%= m.id %>').close()">
+                    Cerrar
+                  </button>
+                </div>
+              </div>
+            </dialog>
+          <% end %>
+
+          <% if @mantenimientos.empty? %>
+            <tr>
+              <td colspan="7" class="px-6 py-12 text-center text-stone-500 text-sm">
+                <div class="flex flex-col items-center justify-center">
+                  <svg class="w-10 h-10 text-stone-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                  <p class="text-base font-medium text-stone-900">No hay mantenimientos</p>
+                  <p class="mt-1">Aún no se ha registrado ningún mantenimiento.</p>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
 
-<table class="table table-bordered table-striped text-center">
-  <thead class="table-warning">
-    <tr>
-      <th>Producto</th>
-      <th>Tipo</th>
-      <th>Fecha</th>
-      <th>Próximo</th>
-      <th>Estado</th>
-      <th>Usuario</th>
-    </tr>
-  </thead>
+<!-- MODAL NATIVO DE CONFIRMACIÓN -->
+<dialog id="confirmMantenimientoModal" class="rounded-2xl shadow-2xl border border-stone-200 p-0 backdrop:bg-stone-900/60 w-full max-w-sm open:animate-in open:fade-in open:zoom-in-95">
+  <div class="bg-white">
+    <div class="px-6 py-4 border-b border-stone-100 flex items-center justify-between bg-amber-50">
+      <h5 class="text-lg font-bold text-amber-900 flex items-center gap-2">
+        <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        Confirmar acción
+      </h5>
+    </div>
+    <div class="px-6 py-5">
+      <p class="text-stone-600 text-sm">¿Estás seguro de cambiar el estado de completado de este mantenimiento?</p>
+    </div>
+    <div class="px-6 py-4 bg-stone-50 border-t border-stone-100 flex justify-end gap-2">
+      <button class="px-4 py-2 bg-white border border-stone-200 text-stone-700 text-sm font-medium rounded-xl hover:bg-stone-50 transition-colors" id="cancelMantenimientoBtn">Cancelar</button>
+      <button class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-xl shadow-sm transition-colors border-0" id="confirmMantenimientoBtn">Confirmar</button>
+    </div>
+  </div>
+</dialog>
 
-  <tbody>
-    <% @mantenimientos.each do |m| %>
-      <tr>
-        <td><%= m.producto.nombre %></td>
-        <td><%= m.tipo %></td>
-        <td><%= m.fecha_mantenimiento.strftime("%d/%m/%Y") %></td>
-        <td><%= m.proximo_mantenimiento&.strftime("%d/%m/%Y") || "—" %></td>
-        <td><%= m.estado_post_mantenimiento %></td>
-        <td><%= m.user.email %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    let formToSubmit = null;
+    const confirmModal = document.getElementById("confirmMantenimientoModal");
+
+    document.querySelectorAll(".completar-checkbox").forEach(checkbox => {
+      checkbox.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation(); // Prevent opening detail modal
+        formToSubmit = e.target.closest("form");
+        confirmModal.showModal();
+      });
+    });
+
+    document.getElementById("confirmMantenimientoBtn").addEventListener("click", () => {
+      if (formToSubmit) {
+        formToSubmit.submit();
+        formToSubmit = null;
+        confirmModal.close();
+      }
+    });
+
+    document.getElementById("cancelMantenimientoBtn").addEventListener("click", () => {
+      formToSubmit = null;
+      confirmModal.close();
+    });
+  });
+</script>

@@ -1,23 +1,15 @@
-<% content_for :title, "Nuevo movimiento" %>
+<% content_for :title, "Nuevo Movimiento" %>
 
-<h1>Nuevo movimiento</h1>
-
-<% if @movimiento.errors.any? %>
-  <div id="error_explanation" style="color: red; border: 1px solid red; padding: 10px; margin-bottom: 20px;">
-    <h2><%= pluralize(@movimiento.errors.count, "error") %> prohibieron guardar este movimiento:</h2>
-
-    <ul>
-      <% @movimiento.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
+<div class="max-w-3xl mx-auto space-y-6">
+  <div class="flex items-center gap-4">
+    <%= link_to movimientos_path, class: "p-2 text-stone-400 hover:text-stone-600 bg-white border border-stone-200 rounded-xl hover:bg-stone-50 transition-colors" do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+    <% end %>
+    <div>
+      <h1 class="text-2xl font-bold text-stone-900 tracking-tight">Nuevo Movimiento</h1>
+      <p class="mt-1 text-sm text-stone-500">Registra una entrada o salida de inventario.</p>
+    </div>
   </div>
-<% end %>
 
-<%= render "form", movimiento: @movimiento %>
-
-<br>
-
-<div>
-  <%= link_to "Volver a movimientos", movimientos_path %>
+  <%= render "form", movimiento: @movimiento %>
 </div>

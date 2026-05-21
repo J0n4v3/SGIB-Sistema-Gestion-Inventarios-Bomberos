@@ -1,63 +1,108 @@
 <% content_for :title, "Productos" %>
 
-<div class="container mt-4">
+<div class="max-w-7xl mx-auto space-y-6">
 
-  <% if notice %>
-    <div class="alert alert-success">
-      <%= notice %>
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-bold text-stone-900 tracking-tight pb-1">Listado de Productos</h1>
+      <p class="mt-1 text-sm text-stone-500">Administra el inventario de la estación.</p>
     </div>
-  <% end %>
+    
+    <div>
+      <% if current_user.administrador? || current_user.supervisor? %>
+        <%= link_to new_producto_path, class: "inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-red-700 hover:bg-red-800 text-white text-sm font-semibold rounded-xl shadow-sm shadow-red-700/20 transition-all focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          Nuevo Producto
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 
   <% # Notificación general de productos con bajo stock %>
   <% bajos = @productos.select(&:bajo_stock?) %>
   <% if bajos.any? %>
-    <div class="alert alert-warning fw-bold text-center">
-      ⚠️ Hay <%= bajos.count %> productos con bajo stock. Revisá el inventario.
+    <div class="rounded-xl border border-amber-200 bg-amber-50 p-4 shadow-sm flex items-start gap-3">
+      <div class="flex-shrink-0 mt-0.5">
+        <svg class="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div>
+        <h3 class="text-sm font-bold text-amber-800">Atención</h3>
+        <p class="mt-1 text-sm text-amber-700">Hay <%= bajos.count %> productos con bajo stock. Revisá el inventario.</p>
+      </div>
     </div>
   <% end %>
 
-  <h1 class="mb-4 text-danger fw-bold">Listado de Productos</h1>
+  <!-- Tabla de Productos -->
+  <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-stone-50 text-stone-500 text-xs uppercase tracking-wider">
+            <th class="px-6 py-4 font-medium border-b border-stone-200 w-16">ID</th>
+            <th class="px-6 py-4 font-medium border-b border-stone-200">Nombre</th>
+            <th class="px-6 py-4 font-medium border-b border-stone-200">Categoría</th>
+            <th class="px-6 py-4 font-medium border-b border-stone-200 text-center">Cantidad</th>
+            <th class="px-6 py-4 font-medium border-b border-stone-200 text-center">Mínimo</th>
+            <th class="px-6 py-4 font-medium border-b border-stone-200 text-center">Estado</th>
+            <th class="px-6 py-4 font-medium border-b border-stone-200 text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-stone-100">
+          <% @productos.each do |producto| %>
+            <% row_class = producto.bajo_stock? ? 'bg-red-50/30' : '' %>
+            <tr class="hover:bg-stone-50 transition-colors <%= row_class %>">
+              <td class="px-6 py-4 text-sm text-stone-500 font-mono"><%= producto.id %></td>
+              <td class="px-6 py-4 text-sm font-semibold text-stone-900"><%= producto.nombre %></td>
+              <td class="px-6 py-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-700 ring-1 ring-inset ring-stone-500/10">
+                  <%= producto.category&.nombre || "Sin Categoría" %>
+                </span>
+              </td>
+              <td class="px-6 py-4 text-center">
+                <span class="inline-flex items-center justify-center min-w-[2.5rem] px-2 py-1 rounded-md text-sm font-bold <%= producto.bajo_stock? ? 'bg-red-100 text-red-700 ring-1 ring-red-200' : 'bg-stone-100 text-stone-700' %>">
+                  <%= producto.cantidad %>
+                </span>
+              </td>
+              <td class="px-6 py-4 text-center text-sm text-stone-500"><%= producto.stock_minimo %></td>
+              <td class="px-6 py-4 text-center">
+                <% if producto.bajo_stock? %>
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-red-100 text-red-800 ring-1 ring-red-200">
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                    Bajo stock
+                  </span>
+                <% else %>
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-100 text-emerald-800 ring-1 ring-emerald-200">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    OK
+                  </span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 text-right space-x-2">
+                <%= link_to 'Ver', producto_path(producto), class: "inline-flex items-center text-sm font-medium text-stone-600 hover:text-stone-900 hover:underline" %>
+                <% if current_user.administrador? || current_user.supervisor? %>
+                  <span class="text-stone-300">|</span>
+                  <%= link_to 'Editar', edit_producto_path(producto), class: "inline-flex items-center text-sm font-medium text-amber-600 hover:text-amber-800 hover:underline" %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+          <% if @productos.empty? %>
+            <tr>
+              <td colspan="7" class="px-6 py-12 text-center text-stone-500 text-sm">
+                <div class="flex flex-col items-center justify-center">
+                  <svg class="w-10 h-10 text-stone-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                  <p class="text-base font-medium text-stone-900">No hay productos</p>
+                  <p class="mt-1">Comienza agregando un nuevo producto al inventario.</p>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-  <table class="table table-bordered table-hover shadow-sm">
-    <thead style="background-color: #ffc107 !important; color: black !important; text-align: center;">
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Categoría</th>
-        <th>Cantidad</th>
-        <th>Stock Mínimo</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @productos.each do |producto| %>
-        <% row_class = producto.bajo_stock? ? 'table-warning' : '' %>
-        <tr class="<%= row_class %>">
-          <td class="text-center"><%= producto.id %></td>
-          <td><%= producto.nombre %></td>
-          <td><%= producto.categoria %></td>
-          <td class="text-center"><%= producto.cantidad %></td>
-          <td class="text-center"><%= producto.stock_minimo %></td>
-          <td class="text-center">
-            <% if producto.bajo_stock? %>
-              <span class="badge bg-danger">⚠️ Bajo stock</span>
-            <% else %>
-              <span class="badge bg-success">OK</span>
-            <% end %>
-          </td>
-          <td class="text-center">
-            <%= link_to 'Ver', producto_path(producto), class: "btn btn-sm btn-outline-danger me-1" %>
-            <%= link_to 'Editar', edit_producto_path(producto), class: "btn btn-sm btn-outline-secondary me-1" %>
-            <%= link_to 'Eliminar', producto_path(producto),
-                method: :delete,
-                data: { confirm: '¿Estás seguro?' },
-                class: "btn btn-sm btn-outline-dark" %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <%= link_to "Nuevo Producto", new_producto_path, class: "btn btn-danger mt-3" %>
 </div>

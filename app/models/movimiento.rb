@@ -1,6 +1,7 @@
 class Movimiento < ApplicationRecord
   belongs_to :producto
-
+  belongs_to :user
+  validates :motivo_frecuente, presence: true
   validate :stock_suficiente, on: :create
 
   after_create :actualizar_stock

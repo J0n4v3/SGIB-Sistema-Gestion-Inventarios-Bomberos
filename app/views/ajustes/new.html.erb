@@ -1,23 +1,40 @@
-<h2 class="mb-3">Ajuste de Inventario</h2>
+<% content_for :title, "Nuevo Ajuste de Inventario" %>
 
-<%= form_with model: @ajuste, local: true do |f| %>
-
-  <div class="mb-3">
-    <%= f.label :producto_id, "Producto", class: "form-label" %>
-    <%= f.select :producto_id, @productos.map { |p| ["#{p.nombre} (Stock: #{p.cantidad})", p.id] },
-        {}, class: "form-select" %>
+<div class="max-w-3xl mx-auto space-y-6">
+  <div class="flex items-center gap-4">
+    <%= link_to ajustes_path, class: "p-2 text-stone-400 hover:text-stone-600 bg-white border border-stone-200 rounded-xl hover:bg-stone-50 transition-colors" do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+    <% end %>
+    <div>
+      <h1 class="text-2xl font-bold text-stone-900 tracking-tight">Ajuste Manual de Inventario</h1>
+      <p class="mt-1 text-sm text-stone-500">Corrige discrepancias en el stock.</p>
+    </div>
   </div>
 
-  <div class="mb-3">
-    <%= f.label :cantidad_nueva, "Nueva cantidad", class: "form-label" %>
-    <%= f.number_field :cantidad_nueva, class: "form-control" %>
+  <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 md:p-8">
+    <%= form_with model: @ajuste, local: true, class: "space-y-6" do |f| %>
+
+      <div>
+        <%= f.label :producto_id, "Producto", class: "block text-sm font-medium text-stone-700 mb-1" %>
+        <%= f.select :producto_id, @productos.map { |p| ["#{p.nombre} (Stock actual: #{p.cantidad})", p.id] },
+            { prompt: "Seleccione el producto a ajustar" }, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
+      </div>
+
+      <div>
+        <%= f.label :cantidad_nueva, "Nueva cantidad correcta", class: "block text-sm font-medium text-stone-700 mb-1" %>
+        <%= f.number_field :cantidad_nueva, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
+      </div>
+
+      <div>
+        <%= f.label :motivo, "Motivo del ajuste", class: "block text-sm font-medium text-stone-700 mb-1" %>
+        <%= f.text_area :motivo, rows: 3, placeholder: "Ej. Recuento físico difiere del sistema, producto dañado no reportado...", class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
+        <%= link_to "Cancelar", ajustes_path, class: "px-4 py-2.5 text-sm font-medium text-stone-600 bg-white border border-stone-200 rounded-xl hover:bg-stone-50 hover:text-stone-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500 transition-colors" %>
+        <%= f.submit "Aplicar Ajuste", class: "px-6 py-2.5 bg-red-700 hover:bg-red-800 text-white text-sm font-semibold rounded-xl shadow-sm shadow-red-700/20 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 transition-all cursor-pointer" %>
+      </div>
+
+    <% end %>
   </div>
-
-  <div class="mb-3">
-    <%= f.label :motivo, "Motivo del ajuste", class: "form-label" %>
-    <%= f.text_area :motivo, class: "form-control", rows: 3 %>
-  </div>
-
-  <%= f.submit "Aplicar Ajuste", class: "btn btn-danger fw-bold" %>
-
-<% end %>
+</div>

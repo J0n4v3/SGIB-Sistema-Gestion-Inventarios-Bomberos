@@ -1,6 +1,7 @@
 class MantenimientosController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin_or_encargado
+  before_action :require_supervisor_or_admin, except: %i[index]
+  before_action :set_mantenimiento, only: [ :completar ]
 
   def index
     @mantenimientos = Mantenimiento.includes(:producto, :user).order(created_at: :desc)
@@ -23,6 +24,14 @@ class MantenimientosController < ApplicationController
     end
   end
 
+def completar
+  if @mantenimiento.update(completado: !@mantenimiento.completado)
+    redirect_to mantenimientos_path, notice: "Estado actualizado correctamente."
+  else
+    redirect_to mantenimientos_path, alert: "No se pudo actualizar."
+  end
+end
+
   private
 
   def mantenimiento_params
@@ -33,9 +42,9 @@ class MantenimientosController < ApplicationController
     )
   end
 
-  def require_admin_or_encargado
-    unless current_user.admin? || current_user.encargado?
-      redirect_to root_path, alert: "No tienes permiso para registrar mantenimientos."
-    end
+
+
+  def set_mantenimiento
+    @mantenimiento = Mantenimiento.find(params[:id])
   end
 end

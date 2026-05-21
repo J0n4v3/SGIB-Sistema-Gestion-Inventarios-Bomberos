@@ -1,6 +1,6 @@
 class UsuariosController < ApplicationController
   before_action :authenticate_user!
-  before_action :verificar_admin!
+  before_action :require_admin
 
   def index
     @usuarios = User.all
@@ -21,7 +21,5 @@ class UsuariosController < ApplicationController
     params.require(:user).permit(:role)
   end
 
-  def verificar_admin!
-    redirect_to root_path, alert: "No autorizado" unless current_user.admin?
-  end
+
 end
