@@ -1,9 +1,7 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+equipos_proteccion:
+  nombre: Equipos de Protección Personal
+  descripcion: Cascos, trajes, guantes y equipos de protección individual
 
-one:
-  nombre: MyString
-  descripcion: MyText
-
-two:
-  nombre: MyString
-  descripcion: MyText
+herramientas:
+  nombre: Herramientas e Hidráulicos
+  descripcion: Equipos hidráulicos, herramientas de rescate y corte

@@ -1,19 +1,19 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+mantenimiento_extintor:
+  producto: extintor
+  user: encargado
+  tipo: Preventivo
+  descripcion: Revisión de presión y estado general del extintor
+  fecha_mantenimiento: 2026-01-15
+  proximo_mantenimiento: 2026-07-15
+  estado_post_mantenimiento: Operativo
+  completado: true
 
-one:
-  producto: one
-  user: one
-  tipo: MyString
-  descripcion: MyText
-  fecha_mantenimiento: 2025-11-27
-  proximo_mantenimiento: 2025-11-27
-  estado_post_mantenimiento: MyString
-
-two:
-  producto: two
-  user: two
-  tipo: MyString
-  descripcion: MyText
-  fecha_mantenimiento: 2025-11-27
-  proximo_mantenimiento: 2025-11-27
-  estado_post_mantenimiento: MyString
+mantenimiento_casco:
+  producto: casco
+  user: encargado
+  tipo: Correctivo
+  descripcion: Reemplazo de correa de sujeción dañada
+  fecha_mantenimiento: 2026-02-10
+  proximo_mantenimiento: 2026-08-10
+  estado_post_mantenimiento: Operativo
+  completado: false

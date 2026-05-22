@@ -10,5 +10,5 @@ application.register("dashboard", DashboardController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
-import RegistrationsController from "./registrations_controller"
-application.register("registrations", RegistrationsController)
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)

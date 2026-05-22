@@ -2,7 +2,9 @@ require "test_helper"
 
 class CategoriesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @category = categories(:one)
+    @category = categories(:equipos_proteccion)
+    @user = users(:admin)
+    sign_in @user
   end
 
   test "should get index" do
@@ -17,10 +19,11 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create category" do
     assert_difference("Category.count") do
-      post categories_url, params: { category: { descripcion: @category.descripcion, nombre: @category.nombre } }
+      post categories_url, params: {
+        category: { nombre: "Materiales de Rescate", descripcion: "Cuerdas y arneses" }
+      }
     end
-
-    assert_redirected_to category_url(Category.last)
+    assert_redirected_to categories_url
   end
 
   test "should show category" do
@@ -34,15 +37,17 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update category" do
-    patch category_url(@category), params: { category: { descripcion: @category.descripcion, nombre: @category.nombre } }
-    assert_redirected_to category_url(@category)
+    patch category_url(@category), params: {
+      category: { nombre: "EPP Actualizado", descripcion: @category.descripcion }
+    }
+    assert_redirected_to categories_url
   end
 
   test "should destroy category" do
+    cat = Category.create!(nombre: "Temporal", descripcion: "Para borrar")
     assert_difference("Category.count", -1) do
-      delete category_url(@category)
+      delete category_url(cat)
     end
-
     assert_redirected_to categories_url
   end
 end
