@@ -1,13 +1,13 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+casco:
+  nombre: Casco Estructural
+  cantidad: 10
+  unidad: unidad
+  stock_minimo: 3
+  category: equipos_proteccion
 
-one:
-  nombre: MyString
-  categoria: MyString
-  cantidad: 1
-  unidad: MyString
-
-two:
-  nombre: MyString
-  categoria: MyString
-  cantidad: 1
-  unidad: MyString
+extintor:
+  nombre: Extintor ABC 10kg
+  cantidad: 5
+  unidad: unidad
+  stock_minimo: 2
+  category: herramientas

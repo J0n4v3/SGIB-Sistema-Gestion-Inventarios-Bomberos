@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   end
 
   # Rutas para usuarios
-  resources :usuarios, only: [ :index, :update ], controller: "usuarios"
+  resources :usuarios, only: [ :index, :update, :create, :new ], controller: "usuarios"
 
   # Devise
   devise_for :users, skip: [ :registrations ]

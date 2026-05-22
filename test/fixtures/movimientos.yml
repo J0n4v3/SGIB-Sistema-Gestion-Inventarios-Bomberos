@@ -1,13 +1,15 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+entrada_casco:
+  producto: casco
+  user: encargado
+  tipo: Entrada
+  cantidad: 5
+  observacion: Reposicion de stock
+  motivo_frecuente: reposicion
 
-one:
-  producto: one
-  tipo: MyString
+salida_extintor:
+  producto: extintor
+  user: bombero
+  tipo: Salida
   cantidad: 1
-  observacion: MyString
-
-two:
-  producto: two
-  tipo: MyString
-  cantidad: 1
-  observacion: MyString
+  observacion: Utilizado en ejercicio
+  motivo_frecuente: uso_operativo

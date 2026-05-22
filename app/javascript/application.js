@@ -2,7 +2,5 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "bootstrap"
-import { start } from "@rails/request.js"
 import "./sidebar"
 
-start()

@@ -1,15 +1,13 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+ajuste_casco:
+  producto: casco
+  user: encargado
+  cantidad_anterior: 8
+  cantidad_nueva: 10
+  motivo: Corrección por conteo físico
 
-one:
-  producto: one
-  user: one
-  cantidad_anterior: 1
-  cantidad_nueva: 1
-  motivo: MyString
-
-two:
-  producto: two
-  user: two
-  cantidad_anterior: 1
-  cantidad_nueva: 1
-  motivo: MyString
+ajuste_extintor:
+  producto: extintor
+  user: admin
+  cantidad_anterior: 6
+  cantidad_nueva: 5
+  motivo: Se detectó unidad en mal estado
