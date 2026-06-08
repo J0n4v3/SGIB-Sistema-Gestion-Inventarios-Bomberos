@@ -1,6 +1,6 @@
 class MovimientosController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_supervisor_or_admin, except: %i[index show new create]
+  before_action :require_encargado_or_admin, except: %i[index show new create]
   before_action :set_movimiento, only: %i[show edit update destroy]
 
   # GET /movimientos

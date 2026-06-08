@@ -18,13 +18,13 @@
         <!-- Producto -->
         <div>
           <%= form.label :producto_id, "Producto", class: "block text-sm font-medium text-stone-700 mb-1" %>
-          <%= form.collection_select :producto_id, Producto.all, :id, :nombre, { prompt: "Seleccione un producto" }, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
+          <%= form.collection_select :producto_id, Producto.all, :id, :nombre, { prompt: "Seleccione un producto" }, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
         </div>
 
         <!-- Tipo -->
         <div>
           <%= form.label :tipo, "Tipo", class: "block text-sm font-medium text-stone-700 mb-1" %>
-          <%= form.select :tipo, [["Entrada", "entrada"], ["Salida", "salida"]], { prompt: "Seleccione tipo" }, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
+          <%= form.select :tipo, [["Entrada", "entrada"], ["Salida", "salida"]], { prompt: "Seleccione tipo" }, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
         </div>
       </div>
 
@@ -32,45 +32,63 @@
         <!-- Cantidad -->
         <div>
           <%= form.label :cantidad, "Cantidad", class: "block text-sm font-medium text-stone-700 mb-1" %>
-          <%= form.number_field :cantidad, min: 1, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
+          <%= form.number_field :cantidad, min: 1, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
         </div>
 
-        <!-- Responsable -->
-        <div>
-          <%= form.label :user_id, "Responsable", class: "block text-sm font-medium text-stone-700 mb-1" %>
-          <%= form.collection_select :user_id, User.all, :id, :email, { prompt: "Seleccione responsable" }, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
-        </div>
       </div>
 
       <!-- Motivo frecuente -->
       <div>
         <%= form.label :motivo_frecuente, "Motivo frecuente", class: "block text-sm font-medium text-stone-700 mb-1" %>
-        <%= form.select :motivo_frecuente, [
-              ["Trabajo del día", "Trabajo del día"],
-              ["Limpieza del pastizal", "Limpieza del pastizal"],
-              ["Recarga de nuevo producto", "Recarga de nuevo producto"],
-              ["Devolución de uso", "Devolución de uso"],
-              ["Otros", "Otros"]
-            ], { prompt: "Seleccione motivo" }, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors", id: "motivo_frecuente_select" %>
+        <%= form.select :motivo_frecuente, [["Uso en emergencia", "Uso en emergencia"],
+["Ejercicio de entrenamiento", "Ejercicio de entrenamiento"],
+["Trabajo del día", "Trabajo del día"],
+["Reposición de stock", "Reposición de stock"],
+["Devolución de uso", "Devolución de uso"],
+["Limpieza", "Limpieza"],
+["Otros", "Otros"]
+            ], { include_blank: "Seleccione motivo" }, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors", id: "motivo_frecuente_select" %>
       </div>
 
       <!-- Otro motivo / descripción -->
       <div id="otro_motivo_div" style="display: none;">
         <%= form.label :otro_motivo, "Especificar motivo", class: "block text-sm font-medium text-stone-700 mb-1" %>
-        <%= form.text_area :otro_motivo, rows: 3, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
+        <%= form.text_area :otro_motivo, rows: 3, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
       </div>
     </div>
   </div>
 
   <div class="flex items-center justify-end gap-3 pt-2">
     <%= link_to "Cancelar", movimientos_path, class: "px-4 py-2.5 text-sm font-medium text-stone-600 bg-white border border-stone-200 rounded-xl hover:bg-stone-50 hover:text-stone-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500 transition-colors" %>
-    <%= form.submit "Guardar Movimiento", class: "px-6 py-2.5 bg-red-700 hover:bg-red-800 text-white text-sm font-semibold rounded-xl shadow-sm shadow-red-700/20 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 transition-all cursor-pointer" %>
+    <button type="button" onclick="document.getElementById('modal-guardar-movimiento').classList.remove('hidden')" class="px-6 py-2.5 bg-red-700 hover:bg-red-800 text-white text-sm font-semibold rounded-xl shadow-sm shadow-red-700/20 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 transition-all cursor-pointer">Guardar Movimiento</button>
+  </div>
+
+  <!-- Modal de confirmación para guardar -->
+  <div id="modal-guardar-movimiento" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="margin-top: 0px;">
+    <div class="absolute inset-0 bg-stone-900/50 backdrop-blur-sm"
+         onclick="document.getElementById('modal-guardar-movimiento').classList.add('hidden')"></div>
+    <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 space-y-4">
+      <h2 class="text-lg font-bold text-stone-900">¿Guardar movimiento?</h2>
+      <p class="text-sm text-stone-500">Confirma que deseas registrar este movimiento en el inventario.</p>
+      <div class="flex justify-end gap-3 pt-2">
+        <button type="button"
+                onclick="document.getElementById('modal-guardar-movimiento').classList.add('hidden')"
+                class="px-4 py-2 text-sm font-semibold text-stone-700 bg-white border border-stone-200 rounded-xl hover:bg-stone-50">
+          Cancelar
+        </button>
+        <button type="button" 
+        onclick="this.closest('form').requestSubmit()"
+        class="px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer">
+  Confirmar
+</button>
+      </div>
+    </div>
   </div>
 <% end %>
 
 <!-- JS para mostrar textarea si se selecciona "Otros" -->
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("turbo:load", () => {
     const select = document.getElementById("motivo_frecuente_select");
     const otroDiv = document.getElementById("otro_motivo_div");
 

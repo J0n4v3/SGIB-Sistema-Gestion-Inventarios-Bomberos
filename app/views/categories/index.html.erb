@@ -17,21 +17,7 @@
     </div>
   </div>
 
-  <% if notice %>
-    <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 shadow-sm">
-      <div class="flex items-center gap-3">
-        <svg class="h-5 w-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <p class="text-sm font-semibold text-emerald-800"><%= notice %></p>
-      </div>
-    </div>
-  <% elsif alert %>
-    <div class="rounded-xl border border-amber-200 bg-amber-50 p-4 shadow-sm">
-      <div class="flex items-center gap-3">
-        <svg class="h-5 w-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-        <p class="text-sm font-semibold text-amber-800"><%= alert %></p>
-      </div>
-    </div>
-  <% end %>
+
 
   <!-- Tabla de Categorías -->
   <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
@@ -60,9 +46,33 @@
               <td class="px-6 py-4 text-right space-x-2">
                 <%= link_to 'Ver', category_path(category), class: "inline-flex items-center text-sm font-medium text-stone-600 hover:text-stone-900 hover:underline" %>
                 <span class="text-stone-300">|</span>
-                <%= link_to 'Editar', edit_category_path(category), class: "inline-flex items-center text-sm font-medium text-amber-600 hover:text-amber-800 hover:underline" %>
-                <span class="text-stone-300">|</span>
-                <%= link_to 'Eliminar', category_path(category), data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro que querés eliminar esta categoría?' }, class: "inline-flex items-center text-sm font-medium text-red-600 hover:text-red-800 hover:underline" %>
+                <% if current_user.administrador? || current_user.encargado? %>
+                  <%= link_to 'Editar', edit_category_path(category), class: "inline-flex items-center text-sm font-medium text-amber-600 hover:text-amber-800 hover:underline" %>
+                  <span class="text-stone-300">|</span>
+                  <button type="button" onclick="document.getElementById('modal-eliminar-cat-<%= category.id %>').classList.remove('hidden')"
+                          class="inline-flex items-center text-sm font-medium text-red-600 hover:text-red-800 hover:underline">
+                    Eliminar
+                  </button>
+                  <div id="modal-eliminar-cat-<%= category.id %>" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+                    <div class="absolute inset-0 bg-stone-900/50 backdrop-blur-sm"
+                         onclick="document.getElementById('modal-eliminar-cat-<%= category.id %>').classList.add('hidden')"></div>
+                    <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 space-y-4">
+                      <h2 class="text-lg font-bold text-stone-900">¿Eliminar categoría?</h2>
+                      <p class="text-sm text-stone-500">Esta acción no se puede deshacer. La categoría <strong><%= category.nombre %></strong> será eliminada permanentemente.</p>
+                      <div class="flex justify-end gap-3 pt-2">
+                        <button type="button"
+                                onclick="document.getElementById('modal-eliminar-cat-<%= category.id %>').classList.add('hidden')"
+                                class="px-4 py-2 text-sm font-semibold text-stone-700 bg-white border border-stone-200 rounded-xl hover:bg-stone-50">
+                          Cancelar
+                        </button>
+                        <%= button_to "Eliminar", category_path(category),
+                            method: :delete,
+                            form: { class: "inline" },
+                            class: "px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer" %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
               </td>
             </tr>
           <% end %>

@@ -27,9 +27,12 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div>
           <%= form.label :cantidad, class: "block text-sm font-medium text-stone-700 mb-1" %>
-          <%= form.number_field :cantidad, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
+          <%= form.number_field :cantidad, readonly: !producto.new_record?, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 sm:text-sm px-4 py-2.5 #{producto.new_record? ? 'bg-white' : 'bg-stone-100'} text-stone-900 transition-colors" %>
+          <% unless producto.new_record? %>
+            <p class="mt-1 text-xs text-stone-500">El stock solo puede modificarse mediante movimientos o ajustes.</p>
+          <% end %>
         </div>
-
+                    
         <div>
           <%= form.label :stock_minimo, "Stock mínimo", class: "block text-sm font-medium text-stone-700 mb-1" %>
           <%= form.number_field :stock_minimo, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
@@ -38,7 +41,7 @@
         <div>
           <%= form.label :unidad, "Unidad", class: "block text-sm font-medium text-stone-700 mb-1" %>
           <%= form.select :unidad,
-              options_for_select([['Unidad', 'unidad'], ['Kg', 'kg'], ['L', 'l'], ['Caja', 'caja']], producto.unidad),
+              options_for_select([['Unidad', 'unidad'], ['Par', 'par'], ['Kg', 'kg'], ['L', 'l'], ['Metro', 'metro'], ['Rollo', 'rollo'], ['Caja', 'caja']], producto.unidad),
               { prompt: "Seleccionar unidad" },
               class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
         </div>
@@ -48,6 +51,24 @@
 
   <div class="flex items-center justify-end gap-3 pt-2">
     <%= link_to "Cancelar", productos_path, class: "px-4 py-2.5 text-sm font-medium text-stone-600 bg-white border border-stone-200 rounded-xl hover:bg-stone-50 hover:text-stone-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500 transition-colors" %>
-    <%= form.submit "Guardar Producto", class: "px-6 py-2.5 bg-red-700 hover:bg-red-800 text-white text-sm font-semibold rounded-xl shadow-sm shadow-red-700/20 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 transition-all cursor-pointer" %>
+    <button type="button" onclick="document.getElementById('modal-guardar-producto').classList.remove('hidden')" class="px-6 py-2.5 bg-red-700 hover:bg-red-800 text-white text-sm font-semibold rounded-xl shadow-sm shadow-red-700/20 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 transition-all cursor-pointer">Guardar Producto</button>
+  </div>
+
+  <!-- Modal de confirmación para guardar -->
+  <div id="modal-guardar-producto" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="margin-top: 0px;">
+    <div class="absolute inset-0 bg-stone-900/50 backdrop-blur-sm"
+         onclick="document.getElementById('modal-guardar-producto').classList.add('hidden')"></div>
+    <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 space-y-4">
+      <h2 class="text-lg font-bold text-stone-900">¿Guardar producto?</h2>
+      <p class="text-sm text-stone-500">Confirma que deseas guardar la información de este producto.</p>
+      <div class="flex justify-end gap-3 pt-2">
+        <button type="button"
+                onclick="document.getElementById('modal-guardar-producto').classList.add('hidden')"
+                class="px-4 py-2 text-sm font-semibold text-stone-700 bg-white border border-stone-200 rounded-xl hover:bg-stone-50">
+          Cancelar
+        </button>
+        <%= form.submit "Confirmar", class: "px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer" %>
+      </div>
+    </div>
   </div>
 <% end %>

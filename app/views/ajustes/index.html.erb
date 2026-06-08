@@ -23,17 +23,21 @@
       <table class="w-full text-left border-collapse">
         <thead>
           <tr class="bg-stone-50 text-stone-500 text-xs uppercase tracking-wider">
+            <th class="px-6 py-4 font-bold border-b border-stone-200">Fecha</th>
             <th class="px-6 py-4 font-bold border-b border-stone-200">Producto</th>
             <th class="px-6 py-4 font-bold border-b border-stone-200 text-center">Anterior</th>
             <th class="px-6 py-4 font-bold border-b border-stone-200 text-center">Nuevo</th>
             <th class="px-6 py-4 font-bold border-b border-stone-200">Motivo</th>
             <th class="px-6 py-4 font-bold border-b border-stone-200">Usuario</th>
-            <th class="px-6 py-4 font-bold border-b border-stone-200">Fecha</th>
+            
           </tr>
         </thead>
         <tbody class="divide-y divide-stone-100">
           <% @ajustes.each do |ajuste| %>
             <tr class="hover:bg-stone-50 transition-colors">
+            <td class="px-6 py-4 text-sm text-stone-500 font-mono">
+                <%= ajuste.created_at.strftime("%d/%m/%Y %H:%M") %>
+              </td>
               <td class="px-6 py-4 text-sm font-semibold text-stone-900"><%= ajuste.producto.nombre %></td>
               <td class="px-6 py-4 text-center">
                 <span class="inline-flex items-center justify-center min-w-[2rem] px-2 py-0.5 rounded text-sm font-medium bg-stone-100 text-stone-600">
@@ -51,14 +55,12 @@
               <td class="px-6 py-4 text-sm text-stone-500">
                 <div class="flex items-center gap-2">
                   <div class="w-6 h-6 rounded-full bg-stone-200 flex items-center justify-center text-[10px] font-bold text-stone-600">
-                    <%= ajuste.user.email[0].upcase %>
+                    <%= ajuste.user.username[0].upcase %>
                   </div>
-                  <%= ajuste.user.email.split('@').first %>
+                  <%= ajuste.user.username.split('@').first %>
                 </div>
               </td>
-              <td class="px-6 py-4 text-sm text-stone-500 font-mono">
-                <%= ajuste.created_at.strftime("%d/%m/%Y %H:%M") %>
-              </td>
+              
             </tr>
           <% end %>
           <% if @ajustes.empty? %>

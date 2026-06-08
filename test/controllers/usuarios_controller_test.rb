@@ -13,8 +13,8 @@ class UsuariosControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update user role" do
-    patch usuario_url(@bombero), params: { user: { role: "supervisor" } }
+    patch usuario_url(@bombero), params: { user: { role: "encargado" } }
     assert_redirected_to usuarios_url
-    assert_equal "supervisor", @bombero.reload.role
+    assert_equal "encargado", @bombero.reload.role
   end
 end

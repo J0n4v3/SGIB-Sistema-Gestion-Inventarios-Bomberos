@@ -19,9 +19,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def require_supervisor_or_admin
-    unless current_user&.administrador? || current_user&.supervisor?
-      redirect_to root_path, alert: "Acceso denegado. Se requieren permisos de supervisor o administrador."
+  def require_encargado_or_admin
+    unless current_user&.administrador? || current_user&.encargado?
+      redirect_to root_path, alert: "Acceso denegado. Se requieren permisos de encargado o administrador."
     end
   end
 end

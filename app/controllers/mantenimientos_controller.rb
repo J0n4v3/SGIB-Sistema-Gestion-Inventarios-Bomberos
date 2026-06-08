@@ -1,7 +1,7 @@
 class MantenimientosController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_supervisor_or_admin, except: %i[index]
-  before_action :set_mantenimiento, only: [ :completar ]
+  before_action :require_encargado_or_admin
+  before_action :set_mantenimiento, only: %i[completar]
 
   def index
     @mantenimientos = Mantenimiento.includes(:producto, :user).order(created_at: :desc)
@@ -24,13 +24,17 @@ class MantenimientosController < ApplicationController
     end
   end
 
-def completar
-  if @mantenimiento.update(completado: !@mantenimiento.completado)
-    redirect_to mantenimientos_path, notice: "Estado actualizado correctamente."
-  else
-    redirect_to mantenimientos_path, alert: "No se pudo actualizar."
+  def completar
+    if @mantenimiento.update(
+      completado: true,
+      condicion_equipo: params[:mantenimiento][:condicion_equipo],
+      observacion_cierre: params[:mantenimiento][:observacion_cierre]
+    )
+      redirect_to mantenimientos_path, notice: "Mantenimiento completado correctamente."
+    else
+      redirect_to mantenimientos_path, alert: "No se pudo completar el mantenimiento."
+    end
   end
-end
 
   private
 
@@ -40,6 +44,10 @@ end
       :fecha_mantenimiento, :proximo_mantenimiento,
       :estado_post_mantenimiento
     )
+  end
+
+  def completar_params
+    params.require(:mantenimiento).permit(:condicion_equipo, :observacion_cierre)
   end
 
 

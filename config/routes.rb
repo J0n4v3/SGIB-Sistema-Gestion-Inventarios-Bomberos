@@ -22,6 +22,9 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
 
+  #Root global
+  root to: "dashboard#index"
+
   # Root dinámico según login
   authenticated :user do
     root to: "dashboard#index", as: :authenticated_root

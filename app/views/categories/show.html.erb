@@ -36,11 +36,31 @@
         Editar
       <% end %>
 
-      <% if @category.productos.empty? %>
-        <%= link_to category_path(@category), data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro que querés eliminar esta categoría?" }, class: "inline-flex items-center justify-center gap-2 px-4 py-2 bg-white hover:bg-red-50 border border-stone-200 hover:border-red-200 text-red-600 text-sm font-semibold rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" do %>
+      <% if @category.productos.empty? && current_user.administrador? %>
+        <button type="button" onclick="document.getElementById('modal-eliminar-categoria').classList.remove('hidden')"
+                class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white hover:bg-red-50 border border-stone-200 hover:border-red-200 text-red-600 text-sm font-semibold rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
           Eliminar
-        <% end %>
+        </button>
+        <div id="modal-eliminar-categoria" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div class="absolute inset-0 bg-stone-900/50 backdrop-blur-sm"
+               onclick="document.getElementById('modal-eliminar-categoria').classList.add('hidden')"></div>
+          <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 space-y-4">
+            <h2 class="text-lg font-bold text-stone-900">¿Eliminar categoría?</h2>
+            <p class="text-sm text-stone-500">Esta acción no se puede deshacer. La categoría <strong><%= @category.nombre %></strong> será eliminada permanentemente.</p>
+            <div class="flex justify-end gap-3 pt-2">
+              <button type="button"
+                      onclick="document.getElementById('modal-eliminar-categoria').classList.add('hidden')"
+                      class="px-4 py-2 text-sm font-semibold text-stone-700 bg-white border border-stone-200 rounded-xl hover:bg-stone-50">
+                Cancelar
+              </button>
+              <%= button_to "Eliminar", category_path(@category),
+                  method: :delete,
+                  form: { class: "inline" },
+                  class: "px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer" %>
+            </div>
+          </div>
+        </div>
       <% end %>
     </div>
   </div>

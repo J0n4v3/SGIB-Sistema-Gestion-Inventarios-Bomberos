@@ -10,7 +10,7 @@
     </div>
     
     <div>
-      <% if current_user.administrador? || current_user.supervisor? %>
+      <% if current_user.administrador? || current_user.encargado? %>
         <%= link_to new_producto_path, class: "inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-red-700 hover:bg-red-800 text-white text-sm font-semibold rounded-xl shadow-sm shadow-red-700/20 transition-all focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2" do %>
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
           Nuevo Producto
@@ -18,7 +18,26 @@
       <% end %>
     </div>
   </div>
-
+<!-- Buscador -->
+<div class="flex items-center gap-3">
+  <%= form_with url: productos_path, method: :get, class: "flex items-center gap-2 w-full sm:w-auto" do |f| %>
+    <div class="relative flex-1 sm:w-72">
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <svg class="h-4 w-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"></path>
+        </svg>
+      </div>
+      <%= f.text_field :search, 
+          value: params[:search],
+          placeholder: "Buscar producto...", 
+          class: "w-full pl-9 pr-4 py-2.5 text-sm bg-white border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" %>
+    </div>
+    <%= f.submit "Buscar", class: "px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 text-sm font-medium rounded-xl transition-colors cursor-pointer" %>
+    <% if params[:search].present? %>
+      <%= link_to "Limpiar", productos_path, class: "px-4 py-2.5 bg-white hover:bg-stone-50 text-stone-500 text-sm font-medium rounded-xl border border-stone-200 transition-colors" %>
+    <% end %>
+  <% end %>
+</div>
   <% # Notificación general de productos con bajo stock %>
   <% bajos = @productos.select(&:bajo_stock?) %>
   <% if bajos.any? %>
@@ -82,7 +101,7 @@
               </td>
               <td class="px-6 py-4 text-right space-x-2">
                 <%= link_to 'Ver', producto_path(producto), class: "inline-flex items-center text-sm font-medium text-stone-600 hover:text-stone-900 hover:underline" %>
-                <% if current_user.administrador? || current_user.supervisor? %>
+                <% if current_user.administrador? || current_user.encargado? %>
                   <span class="text-stone-300">|</span>
                   <%= link_to 'Editar', edit_producto_path(producto), class: "inline-flex items-center text-sm font-medium text-amber-600 hover:text-amber-800 hover:underline" %>
                 <% end %>
