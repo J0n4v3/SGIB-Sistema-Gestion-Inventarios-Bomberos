@@ -1,6 +1,6 @@
 class AjustesController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_supervisor_or_admin
+  before_action :require_encargado_or_admin
 
   def index
     @ajustes = Ajuste.includes(:producto, :user).order(created_at: :desc)

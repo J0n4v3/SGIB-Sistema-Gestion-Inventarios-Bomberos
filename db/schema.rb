@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_13_175357) do
+ActiveRecord::Schema[7.2].define(version: 2026_06_06_191518) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,6 +44,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_13_175357) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "completado", default: false, null: false
+    t.string "condicion_equipo"
+    t.text "observacion_cierre"
     t.index ["producto_id"], name: "index_mantenimientos_on_producto_id"
     t.index ["user_id"], name: "index_mantenimientos_on_user_id"
   end

@@ -2,14 +2,12 @@ class User < ApplicationRecord
   # Agregamos 'authentication_keys' para decirle que use el username
   devise :database_authenticatable, :rememberable, :validatable, authentication_keys: [:username]
 
-  enum :role, { operador: 0, supervisor: 1, administrador: 2 }
-
+enum :role, { bombero: 0, encargado: 1, administrador: 2 }
   after_initialize :set_default_role, if: :new_record?
 
   # VALIDACIONES
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   
-  # ESTO ES LO QUE SOLUCIONA TU ERROR:
   # Le decimos a Devise que el email NO es necesario para validar
   def email_required?
     false
@@ -36,6 +34,6 @@ class User < ApplicationRecord
   private
 
   def set_default_role
-    self.role ||= :operador
+    self.role ||= :bombero
   end
 end

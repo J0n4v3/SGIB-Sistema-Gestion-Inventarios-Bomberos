@@ -24,19 +24,19 @@
 
         <div>
           <%= f.label :username, "Usuario", class: "block text-sm font-medium text-stone-700 mb-1" %>
-          <%= f.text_field :username, class: "w-full rounded-lg border-stone-200 shadow-sm focus:border-red-500 focus:ring-red-500 text-sm", placeholder: "nombre_usuario" %>
+          <%= f.text_field :username, class: "w-full rounded-lg border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors", placeholder: "nombre_usuario" %>
         </div>
         <div>
           <%= f.label :password, "Contraseña", class: "block text-sm font-medium text-stone-700 mb-1" %>
-          <%= f.password_field :password, class: "w-full rounded-lg border-stone-200 shadow-sm focus:border-red-500 focus:ring-red-500 text-sm" %>
+          <%= f.password_field :password, class: "w-full rounded-lg border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
         </div>
         <div>
           <%= f.label :password_confirmation, "Confirmar contraseña", class: "block text-sm font-medium text-stone-700 mb-1" %>
-          <%= f.password_field :password_confirmation, class: "w-full rounded-lg border-stone-200 shadow-sm focus:border-red-500 focus:ring-red-500 text-sm" %>
+          <%= f.password_field :password_confirmation, class: "w-full rounded-lg border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
         </div>
         <div>
           <%= f.label :role, "Rol", class: "block text-sm font-medium text-stone-700 mb-1" %>
-          <%= f.select :role, User.roles.keys.map { |r| [r.humanize, r] }, {}, class: "w-full rounded-lg border-stone-200 shadow-sm focus:border-red-500 focus:ring-red-500 text-sm" %>
+          <%= f.select :role, User.roles.keys.map { |r| [r.humanize, r] }, {}, class: "w-full rounded-lg border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
         </div>
         <div class="flex justify-end gap-3 pt-2">
           <button type="button" data-action="click->modal#close" 
@@ -53,29 +53,16 @@
   <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
     <div>
       <h1 class="text-3xl font-bold text-stone-900 tracking-tight pb-1">Gestión de Usuarios</h1>
-      <button data-action="click->modal#open" 
+      
+      <p class="mt-1 text-sm text-stone-500">Administra los roles y accesos al sistema.</p>
+    </div>
+    <button data-action="click->modal#open" 
         class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg transition-colors">
   + Nuevo Usuario
 </button>
-      <p class="mt-1 text-sm text-stone-500">Administra los roles y accesos al sistema.</p>
-    </div>
   </div>
 
-  <% if notice %>
-    <div class="rounded-x1 border border-emerald-200 bg-emerald-50 p-4 shadow-sm">
-    <div class="flex items-center gap-3">
-      <svg class="h-5 w-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-      <p class="text-sm font-semibold text-emerald-800"><%= notice %></p>
-    </div>
-    </div>
-  <% elsif alert %>
-    <div class="rounded-xl border border-red-200 bg-red-50 p-4 shadow-sm">
-      <div class="flex items-center gap-3">
-        <svg class="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-        <p class="text-sm font-semibold text-red-800"><%= alert %></p>
-      </div>
-    </div>
-  <% end %>
+
 
   <!-- Tabla de Usuarios -->
   <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
@@ -104,7 +91,7 @@
                 <% case usuario.role %>
                 <% when "administrador" %>
                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-red-100 text-red-800 ring-1 ring-red-600/20">Admin</span>
-                <% when "supervisor" %>
+                <% when "encargado" %>
                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-amber-100 text-amber-800 ring-1 ring-amber-600/20">Encargado</span>
                 <% else %>
                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-stone-100 text-stone-700 ring-1 ring-stone-500/10">Bombero</span>

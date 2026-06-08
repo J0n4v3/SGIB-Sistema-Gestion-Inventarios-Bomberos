@@ -2,7 +2,7 @@
 
 <div class="max-w-3xl mx-auto space-y-6">
   <div class="flex items-center gap-4">
-    <%= link_to mantenimientos_path, class: "p-2 text-stone-400 hover:text-stone-600 bg-white border border-stone-200 rounded-xl hover:bg-stone-50 transition-colors" do %>
+    <%= link_to mantenimientos_path, class: "p-2 text-stone-400 hover:text-stone-600 bg-white border border-stone-200 rounded-xl hover:bg-white-50  transition-colors" do %>
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
     <% end %>
     <div>
@@ -29,43 +29,61 @@
         <div>
           <%= f.label :producto_id, "Producto", class: "block text-sm font-medium text-stone-700 mb-1" %>
           <%= f.select :producto_id, @productos.map { |p| [p.nombre, p.id] },
-              { prompt: "Seleccione un producto" }, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
+              { prompt: "Seleccione un producto" }, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
         </div>
 
         <div>
           <%= f.label :tipo, "Tipo de mantenimiento", class: "block text-sm font-medium text-stone-700 mb-1" %>
           <%= f.select :tipo, [["Preventivo", "Preventivo"], ["Correctivo", "Correctivo"]],
-              { prompt: "Seleccione tipo" }, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
+              { prompt: "Seleccione tipo" }, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
         </div>
       </div>
 
       <div>
         <%= f.label :descripcion, "Descripción", class: "block text-sm font-medium text-stone-700 mb-1" %>
-        <%= f.text_area :descripcion, rows: 3, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
+        <%= f.text_area :descripcion, rows: 3, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <%= f.label :fecha_mantenimiento, "Fecha de ejecución", class: "block text-sm font-medium text-stone-700 mb-1" %>
-          <%= f.date_field :fecha_mantenimiento, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
+          <%= f.date_field :fecha_mantenimiento, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
         </div>
 
         <div>
           <%= f.label :proximo_mantenimiento, "Próximo mantenimiento (Opcional)", class: "block text-sm font-medium text-stone-700 mb-1" %>
-          <%= f.date_field :proximo_mantenimiento, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
+          <%= f.date_field :proximo_mantenimiento, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
         </div>
       </div>
 
       <div>
         <%= f.label :estado_post_mantenimiento, "Estado del equipo posterior", class: "block text-sm font-medium text-stone-700 mb-1" %>
         <%= f.select :estado_post_mantenimiento, 
-              ["Operativo", "Dañado", "En reparación"], 
-              { prompt: "Seleccione el estado" }, class: "block w-full rounded-xl border-stone-200 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm px-4 py-2.5 bg-stone-50 text-stone-900 transition-colors" %>
+              ["Operativo", "Dañado", "En reparación", ], 
+              { prompt: "Seleccione el estado" }, class: "block w-full rounded-xl border border-stone-300 shadow-sm focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 sm:text-sm px-4 py-2.5 bg-white text-stone-900 transition-colors" %>
       </div>
 
       <div class="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
         <%= link_to "Cancelar", mantenimientos_path, class: "px-4 py-2.5 text-sm font-medium text-stone-600 bg-white border border-stone-200 rounded-xl hover:bg-stone-50 hover:text-stone-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500 transition-colors" %>
-        <%= f.submit "Guardar Mantenimiento", class: "px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-xl shadow-sm shadow-amber-600/20 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-all cursor-pointer" %>
+        <button type="button" onclick="document.getElementById('modal-guardar-mantenimiento').classList.remove('hidden')" class="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-xl shadow-sm shadow-amber-600/20 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-all cursor-pointer">Guardar Mantenimiento</button>
+      </div>
+
+      <!-- Modal de confirmación para guardar -->
+      <div id="modal-guardar-mantenimiento" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="margin-top: 0px;">
+        <div class="absolute inset-0 bg-stone-900/50 backdrop-blur-sm"
+             onclick="document.getElementById('modal-guardar-mantenimiento').classList.add('hidden')"></div>
+        <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 space-y-4">
+          <h2 class="text-lg font-bold text-stone-900">¿Guardar mantenimiento?</h2>
+          <p class="text-sm text-stone-500">Confirma que deseas registrar este mantenimiento.</p>
+          <div class="flex justify-end gap-3 pt-2">
+            <button type="button"
+                    onclick="document.getElementById('modal-guardar-mantenimiento').classList.add('hidden')"
+                    class="px-4 py-2 text-sm font-semibold text-stone-700 bg-white border border-stone-200 rounded-xl hover:bg-stone-50">
+              Cancelar
+            </button>
+            <%= f.submit "Confirmar", class: "px-4 py-2 text-sm font-semibold text-white bg-amber-600 hover:bg-amber-700 rounded-xl cursor-pointer" %>
+          </div>
+        </div>
       </div>
 
     <% end %>
