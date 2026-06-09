@@ -10,32 +10,23 @@ Este es un proyecto académico desarrollado como parte del Trabajo Final de Grad
 - [Autoría y licencia](#-autoría-y-licencia)
 
 
- Tecnologías utilizadas
-Lenguaje principal: Ruby 3.x
+## Tecnologías utilizadas
 
-Framework: Ruby on Rails 7.x
-
-Base de datos: SQLite (desarrollo), PostgreSQL (producción)
-
-Frontend: Bootstrap 5
-
-Autenticación: Devise
-
-Sistema de rutas mejorado: Turbo (Hotwire)
-
-Control de versiones: Git y GitHub
-
- Instalación del proyecto (Windows 10 con CMD)
+- Lenguaje principal: Ruby 3.x
+- Framework: Ruby on Rails 7.x
+- Base de datos: SQLite (desarrollo), PostgreSQL (producción)
+- Frontend: Bootstrap 5
+- Autenticación: Devise
+- Sistema de rutas mejorado: Turbo (Hotwire)
+- Control de versiones: Git y GitHub)
 
 ### Requisitos previos
 
 Asegurate de tener instalado:
 
 - [Ruby](https://rubyinstaller.org/) (usa RubyInstaller para Windows)
-- [Node.js](https://nodejs.org/) (mínimo v14)
-- [Yarn](https://classic.yarnpkg.com/en/docs/install/#windows-stable)
 - [Git](https://git-scm.com/)
-- SQLite3
+- PostgreSQL
 
 ---
 
@@ -52,13 +43,6 @@ Instalar las gemas necesarias:
 Copiar
 Editar
 bundle install
-```
-Instalar paquetes JavaScript y preparar assets:
-```
-cmd
-Copiar
-Editar
-yarn install
 ```
 Crear y migrar la base de datos:
 ```
