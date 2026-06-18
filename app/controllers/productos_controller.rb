@@ -3,7 +3,6 @@ class ProductosController < ApplicationController
   before_action :require_encargado_or_admin, except: %i[index show]
   before_action :set_producto, only: %i[ show edit update destroy ]
 
-  # GET /productos or /productos.json
   def index
   @productos = if params[:search].present?
     Producto.joins(:category)
@@ -15,20 +14,16 @@ class ProductosController < ApplicationController
   end
 end
 
-  # GET /productos/1 or /productos/1.json
   def show
   end
 
-  # GET /productos/new
   def new
     @producto = Producto.new
   end
 
-  # GET /productos/1/edit
   def edit
   end
 
-  # POST /productos or /productos.json
   def create
     @producto = Producto.new(producto_params)
 
@@ -43,7 +38,6 @@ end
     end
   end
 
-  # PATCH/PUT /productos/1 or /productos/1.json
   def update
     respond_to do |format|
       if @producto.update(producto_params)
@@ -56,7 +50,6 @@ end
     end
   end
 
-  # DELETE /productos/1 or /productos/1.json
   def destroy
   if @producto.movimientos.any?
     redirect_to productos_path, alert: "No se puede eliminar un producto con movimientos registrados."

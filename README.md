@@ -53,13 +53,7 @@ Copiar
 Editar
 bundle install
 ```
-Instalar paquetes JavaScript y preparar assets:
-```
-cmd
-Copiar
-Editar
-yarn install
-```
+
 Crear y migrar la base de datos:
 ```
 cmd

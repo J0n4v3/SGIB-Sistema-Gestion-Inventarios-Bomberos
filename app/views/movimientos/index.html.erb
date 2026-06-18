@@ -73,7 +73,7 @@
                 
                 <% if current_user.administrador? %>
                   
-                  <% if false # Editar y Eliminar ocultos: El historial de movimientos debe ser inmutable por seguridad %>
+                  <% if false # Editar y Eliminar ocultos %>
                     <span class="text-stone-300">|</span>
                     <%= link_to 'Editar', edit_movimiento_path(movimiento), class: "inline-flex items-center text-sm font-medium text-amber-600 hover:text-amber-800 hover:underline" %>
                     

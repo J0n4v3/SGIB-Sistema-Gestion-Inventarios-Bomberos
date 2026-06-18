@@ -3,26 +3,21 @@ class MovimientosController < ApplicationController
   before_action :require_encargado_or_admin, except: %i[index show new create]
   before_action :set_movimiento, only: %i[show edit update destroy]
 
-  # GET /movimientos
   def index
     @movimientos = Movimiento.includes(:producto, :user).order(created_at: :desc)
   end
 
-  # GET /movimientos/1
   def show
   end
 
-  # GET /movimientos/new
   def new
     @movimiento = Movimiento.new
   end
 
-  # GET /movimientos/1/edit
 ***REMOVED***
   def edit
   end
 
-  # POST /movimientos
   def create
     @movimiento = Movimiento.new(movimiento_params)
     @movimiento.user = current_user # responsable automático
@@ -42,7 +37,6 @@ class MovimientosController < ApplicationController
     end
   end
 
-  # PATCH/PUT /movimientos/1
   def update
     if @movimiento.update(movimiento_params)
       redirect_to @movimiento, notice: "Movimiento actualizado correctamente."
@@ -51,7 +45,6 @@ class MovimientosController < ApplicationController
     end
   end
 
-  # DELETE /movimientos/1
   def destroy
     @movimiento.destroy
     redirect_to movimientos_path, notice: "Movimiento eliminado correctamente."
