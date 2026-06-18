@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "alert" ]
+  static targets = ["alert"]
 
   connect() {
     console.log("Dashboard controller connected")
@@ -9,8 +9,8 @@ export default class extends Controller {
 
   dismissAlert(event) {
     event.preventDefault()
-    
-    // Animación de salida (opcional, pero mejora la experiencia)
+
+    // Animación de salida
     if (this.hasAlertTarget) {
       this.alertTarget.classList.add('opacity-0', 'scale-95', 'transition-all', 'duration-300')
       setTimeout(() => {

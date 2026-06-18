@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
   layout "tailwind"
-  # Cargar los helpers de Devise
+  # Cargar los helpers de Devise 
   include Devise::Controllers::Helpers
   helper Devise::Controllers::Helpers
 
-***REMOVED***
+  
   before_action :set_productos_bajo_stock
 
   private

@@ -14,7 +14,7 @@ class MovimientosController < ApplicationController
     @movimiento = Movimiento.new
   end
 
-***REMOVED***
+
   def edit
   end
 

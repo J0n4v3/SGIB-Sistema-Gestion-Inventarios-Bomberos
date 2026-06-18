@@ -61,7 +61,6 @@ end
 
   private
     # Callback para buscar el producto
-    def set_producto
       @producto = Producto.find(params[:id])
     end
 

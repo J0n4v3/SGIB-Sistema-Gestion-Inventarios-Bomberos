@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  # Se agrega 'authentication_keys' para decirle que use el username
+  # Agrega 'authentication_keys' para decirle que use el username
   devise :database_authenticatable, :rememberable, :validatable, authentication_keys: [:username]
 
 enum :role, { bombero: 0, encargado: 1, administrador: 2 }
@@ -8,7 +8,7 @@ enum :role, { bombero: 0, encargado: 1, administrador: 2 }
   # VALIDACIONES
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   
-  # Se le indica a Devise que el email NO es necesario para validar
+  # Le dice a Devise que el email NO es necesario para validar
   def email_required?
     false
   end
