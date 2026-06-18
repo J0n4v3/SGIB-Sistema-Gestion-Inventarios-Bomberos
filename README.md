@@ -1,131 +1,115 @@
-Este es un proyecto académico desarrollado como parte del Trabajo Final de Grado (TFG). Consiste en una aplicación web para gestionar el inventario de equipamiento y materiales de una estación de bomberos, incluyendo productos, movimientos de entrada y salida, y usuarios autenticados mediante Devise.
+# SIGIB — Sistema de Gestión de Inventarios de Bomberos
 
-## Contenido
+Prototipo de aplicación web desarrollado como Trabajo Final de Grado (TFG) en la carrera de Licenciatura en Análisis de Sistemas Informáticos de la Universidad Autónoma de Encarnación (UNAE), 2026.
 
-- [Descripción del proyecto](#-sistema-de-gestión-de-inventario-para-estación-de-bomberos-)
-- [Tecnologías utilizadas](#-tecnologías-utilizadas)
-- [Instalación del proyecto](#️-instalación-del-proyecto)
-- [Uso del sistema](#-uso-del-sistema)
-- [Despliegue](#-despliegue)
-- [Autoría y licencia](#-autoría-y-licencia)
-
-
- Tecnologías utilizadas
-Lenguaje principal: Ruby 3.x
-
-Framework: Ruby on Rails 7.x
-
-Base de datos: SQLite (desarrollo), PostgreSQL (producción)
-
-Frontend: Bootstrap 5
-
-Autenticación: Devise
-
-Sistema de rutas mejorado: Turbo (Hotwire)
-
-Control de versiones: Git y GitHub
-
- Instalación del proyecto (Windows 10 con CMD)
-
-### Requisitos previos
-
-Asegurate de tener instalado:
-
-- [Ruby](https://rubyinstaller.org/) (usa RubyInstaller para Windows)
-- [Node.js](https://nodejs.org/) (mínimo v14)
-- [Yarn](https://classic.yarnpkg.com/en/docs/install/#windows-stable)
-- [Git](https://git-scm.com/)
-- SQLite3
+El sistema centraliza la gestión de inventarios de una estación de bomberos voluntarios, permitiendo registrar productos e insumos, controlar el stock mediante movimientos de entrada y salida, gestionar mantenimientos de equipos y administrar usuarios con roles diferenciados.
 
 ---
 
-###  Pasos de instalación
+## Módulos del sistema
 
-1. **Clonar el repositorio desde GitHub**:
+- **Dashboard** — panel de control con indicadores de stock crítico y mantenimientos pendientes
+- **Productos** — catálogo de insumos y equipos con alertas automáticas de stock mínimo
+- **Categorías** — clasificación de productos
+- **Movimientos de stock** — registro de entradas y salidas con trazabilidad por usuario
+- **Ajustes de inventario** — correcciones manuales de stock con auditoría
+- **Mantenimientos** — seguimiento de intervenciones técnicas sobre equipos
+- **Usuarios** — administración de cuentas con tres roles: Bombero, Encargado y Administrador
 
-   ```cmd
-   git clone https://github.com/J0n4v3/Ing_Soft_Gestion_Inventario_Estacion_Bomberos.git
-   cd Ing_Soft_Gestion_Inventario_Estacion_Bomberos
-Instalar las gemas necesarias:
+---
 
-```cmd
-Copiar
-Editar
+## Tecnologías
+
+| Componente | Tecnología |
+|---|---|
+| Lenguaje | Ruby 3.3.5 |
+| Framework | Ruby on Rails 7.2 |
+| Base de datos | PostgreSQL 17 |
+| Frontend | Tailwind CSS + Hotwire |
+| Autenticación | Devise |
+| Control de versiones | Git / GitHub |
+| Entorno de desarrollo | Visual Studio Code + RubyInstaller DevKit (Windows) |
+
+---
+
+## Instalación
+
+### Requisitos previos
+
+- Ruby 3.3.5 (64 bits) — [RubyInstaller DevKit](https://rubyinstaller.org/)
+- Rails 7.2
+- PostgreSQL 17
+- Bundler (`gem install bundler`)
+- Git
+
+### Pasos
+
+**1. Clonar el repositorio**
+```bash
+git clone https://github.com/J0n4v3/SGIB-Sistema-Gestion-Inventarios-Bomberos.git
+cd SGIB-Sistema-Gestion-Inventarios-Bomberos
+```
+
+**2. Instalar dependencias**
+```bash
 bundle install
 ```
 
-Crear y migrar la base de datos:
+**3. Configurar la base de datos**
+
+Verificar que PostgreSQL esté en ejecución. Si las credenciales difieren de las predeterminadas, ajustar `config/database.yml`:
+
+```yaml
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: postgres
+  password: tu_contraseña
+  host: localhost
 ```
-cmd
-Copiar
-Editar
+
+**4. Crear y migrar la base de datos**
+```bash
 rails db:create
 rails db:migrate
+rails db:seed
 ```
-Levantar el servidor:
+
+**5. Levantar el servidor**
+```bash
+rails server
 ```
-cmd
-Copiar
-Editar
-bin\rails server
+
+Acceder desde el navegador en: `http://localhost:3000`
+
+---
+
+## Credenciales de prueba
+
+| Rol | Usuario | Contraseña |
+|---|---|---|
+| Administrador | admin | password123 |
+| Encargado | encargado1 | password123 |
+| Bombero | bombero1 | password123 |
+
+---
+
+## Pruebas automatizadas
+
+El proyecto incluye una suite de 30 pruebas funcionales con 47 aserciones. Para ejecutarlas:
+
+```bash
+rails test
 ```
-Abrir la app:
 
-Entrá en tu navegador a:
-```
-http://localhost:3000
+---
 
-```
-### Uso del sistema
+## Autor
 
- Autenticación
-El sistema utiliza Devise para el inicio de sesión y registro de usuarios.
+**Jonathan Gabriel Verruck Eisenkölbl**  
+Licenciatura en Análisis de Sistemas Informáticos  
+Universidad Autónoma de Encarnación — 2026  
+GitHub: [@J0n4v3](https://github.com/J0n4v3)
 
-Solo los usuarios autenticados pueden gestionar el inventario.
-
- Modelos principales
-
-1. Producto
-nombre:string
-
-descripcion:text
-
-stock:integer
-
-ubicacion:string
-
-Permite registrar materiales como cascos, mangueras, extinguidores, etc.
-
-2. Movimiento
-tipo:string (entrada / salida)
-
-cantidad:integer
-
-producto_id:references
-
-motivo:text
-
-fecha:datetime
-
-Permite llevar un historial de entradas y salidas de productos del inventario.
-
-3. Usuario (Devise)
-email:string
-
-password:string
-
-### Interfaz
-Totalmente responsive gracias a Bootstrap 5.
-
-Navegación sencilla a través de una barra superior fija.
-
-Visualización clara del stock y los movimientos.
-
-
-### Autoría y licencia
-Este proyecto fue desarrollado por Jonathan Verruck  como parte del Trabajo Final de Grado en la carrera de Licenciatura de Sistemas.
-
-Universidad: Universidad Autonoma de Encarnacion
-
-Año: 2025
+Año: 2026
 
